@@ -1,0 +1,25 @@
+﻿@model IEnumerable<assignment3_AnubhavSharma.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<nav class="navlink">
+    <a href="/Teacher/New"><i class="fas fa-plus"></i> Add Teacher </a>
+</nav>
+<h2>List of all the Teachers.</h2>
+@* A form for getting the search Id *@
+<form action="/Teacher/List" method="get">
+    <input type="text" name="SearchKey" />
+    <input type="submit" value="Search" />
+</form>
+<span>@Model.Count() Results Found</span>
+
+
+@*Iterates through each object in the models *@
+@foreach (var teacher in Model)
+{
+    <div>
+        <h3><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></h3>
+    </div>
+}
+
