@@ -15,8 +15,6 @@ namespace assignment3_AnubhavSharma.Models
         public string EmployeeNumber;
         public string TeacherHireDate;
         public double TeacherSalary;
-        public List<String> TeacherCourse = new List<string>();
-        public string inputError = "i";
-        public Teacher() { }
+        
     }
 }

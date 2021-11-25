@@ -8,9 +8,8 @@
 <nav class="navlink">
     <div>
         <a href="/Teacher/List">Go back</a>
-        <a href="/Teacher/Update/@Model.TeacherId">Update</a>
     </div>
-    <a class="show-deleteButton" href="/Teacher/DeleteConfirm/@Model.TeacherId"><i class="fa fa-trash" aria-hidden="true"></i></a>
+    
 
 </nav>
 
@@ -22,8 +21,4 @@
     color:brown">
     Courses Assigned :
 </h3>
-@foreach (var course in Model.TeacherCourse)
-{
-    <p>@course</p>
-}
 
