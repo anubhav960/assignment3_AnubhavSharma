@@ -155,5 +155,104 @@ namespace assignment3_AnubhavSharma.Controllers
             // Returns an object of Teacher with all the information.
             return NewTeacher;
         }
+
+
+         [HttpPost]
+        public void deleteTeacher(int id)
+        {
+            //Instance of a connection using MySQL object.
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //Establishes connection between web server and the database
+            Connection.Open();
+
+            //This helps to create a new command of SQL.
+            MySqlCommand cmd = Connection.CreateCommand();
+
+            //SQL QUERY to delete by Id
+            // I have updated the Database so in the Classes where teacherid is foreign key
+            // have updated the restriction to ON DELETE CASCADE so whenever a teacher is deleted automatically classes are 
+            // are also remove and same for studentvsclass table.
+            //By this we can maintain data-integrity.
+            cmd.CommandText = "Delete from teachers where teacherid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            //Important to close the connection between webserver and Database.
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// This Methods helps to add a new teacher to the school database . It takes  a teacher model with all the information.
+        /// </summary>
+        /// <param name="newTeacher">Its a teacher model with all the necssary information.</param>
+        /// <returns>As there is nothing to return, it is void</returns>
+        [HttpPost]
+        public void AddTeacher([FromBody]Teacher newTeacher)
+        {
+            //Instance of a connection using MySQL object.
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //Establishes connection between web server and the database
+            Connection.Open();
+
+            //This helps to create a new command of SQL.
+            MySqlCommand cmd = Connection.CreateCommand();
+
+            //SQL QUERY to Insert 
+            cmd.CommandText = "INSERT INTO teachers " +
+                "(teacherfname, teacherlname, employeenumber, hiredate, salary) " +
+                "VALUES (@fname, @lname, @employeenumber,@date,@salary);";
+            cmd.Parameters.AddWithValue("@fname", newTeacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@lname", newTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@employeenumber", newTeacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@date",Convert.ToDateTime(newTeacher.TeacherHireDate));
+            cmd.Parameters.AddWithValue("@salary", newTeacher.TeacherSalary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            //Important to close the connection between webserver and Database.
+            Connection.Close();
+        }
+
+        /// <summary>
+        /// This method is used when we want o update the information about a teacher.
+        /// </summary>
+        /// <param name="id">The id of the teacher which is to be updated.</param>
+        /// <param name="teacherInfo">Its a information of the teacher.</param>
+
+    [HttpPost]
+        public void UpdateTeacher (int id , [FromBody]Teacher teacherInfo)
+        {
+            //Instance of a connection using MySQL object.
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //Establishes connection between web server and the database
+            Connection.Open();
+
+            //This helps to create a new command of SQL.
+            MySqlCommand cmd = Connection.CreateCommand();
+
+            //SQL QUERY to Update by Id. 
+            cmd.CommandText = "UPDATE teachers set " +
+                "teacherfname = @fname , teacherlname = @lname, salary = @salary " +
+                "where teacherid = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@fname", teacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@lname", teacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@salary", teacherInfo.TeacherSalary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            //Important to close the connection between webserver and Database.
+            Connection.Close();
+
+        }
+    }
+}
     }
 }
